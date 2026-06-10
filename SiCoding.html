@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Platform pembelajaran Bahasa C interaktif. Belajar C Programming dari nol dengan modul terstruktur, quiz, dan code sandbox.">
+    <title>Si Coding | Belajar Bahasa C Interaktif</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #1e293b;
+            line-height: 1.5;
+            font-size: 16px;
+        }
+
+        :root {
+            --orange: #f97316;
+            --orange-dark: #ea580c;
+            --orange-light: #ffedd5;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+            --radius-xl: 1.5rem;
+            --radius-lg: 1rem;
+            --radius-md: 0.75rem;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.96);
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--gray-800);
+        }
+        .logo i {
+            color: var(--orange);
+            font-size: 1.8rem;
+        }
+        .logo span {
+            color: var(--orange);
+        }
+        .nav {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        .nav a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .nav a:hover, .nav a.active {
+            color: var(--orange);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+        }
+        .btn-primary {
+            background: var(--orange);
+            color: white;
+            box-shadow: 0 2px 6px rgba(249,115,22,0.3);
+        }
+        .btn-primary:hover {
+            background: var(--orange-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(249,115,22,0.25);
+        }
+        .btn-outline {
+            border: 1.5px solid var(--gray-200);
+            background: white;
+            color: var(--gray-800);
+        }
+        .btn-outline:hover {
+            border-color: var(--orange);
+            color: var(--orange);
+        }
+        .btn-ghost {
+            background: var(--gray-100);
+            color: var(--gray-600);
+        }
+        .btn-ghost:hover {
+            background: var(--gray-200);
+            color: var(--orange);
+        }
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.8rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%);
+            padding: 70px 0 80px;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: var(--orange-light);
+            color: var(--orange-dark);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--gray-800), var(--orange));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray-600);
+            max-width: 580px;
+            margin: 0 auto 32px;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 48px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--orange);
+        }
+        .stat-label {
+            color: var(--gray-600);
+            font-size: 0.85rem;
+        }
+
+        /* Section umum */
+        .section {
+            padding: 80px 0;
+        }
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .section-sub {
+            text-align: center;
+            color: var(--gray-600);
+            margin-bottom: 56px;
+        }
+
+        /* Cards grid */
+        .features-grid, .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+        }
+        .feature-card, .module-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            transition: all 0.25s;
+            box-shadow: var(--shadow-sm);
+        }
+        .feature-card:hover, .module-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--orange);
+            box-shadow: var(--shadow-lg);
+        }
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--orange-light);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--orange);
+            margin-bottom: 20px;
+        }
+        .module-card.completed {
+            border-left: 4px solid var(--orange);
+        }
+        .module-card.locked {
+            opacity: 0.65;
+            pointer-events: none;
+            filter: grayscale(0.05);
+        }
+        .progress-bar {
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 20px;
+            margin: 16px 0;
+        }
+        .progress-fill {
+            background: var(--orange);
+            width: 0%;
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.3s;
+        }
+        .bookmark-star {
+            cursor: pointer;
+            color: var(--gray-400);
+            transition: 0.2s;
+        }
+        .bookmark-star.bookmarked {
+            color: var(--orange);
+        }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .dashboard-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            text-align: center;
+        }
+        .leaderboard-table {
+            width: 100%;
+            background: white;
+            border-radius: var(--radius-lg);
+            border-collapse: collapse;
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+        }
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        .leaderboard-table th {
+            background: var(--gray-50);
+            color: var(--orange);
+        }
+
+        /* Modal sandbox & quiz */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-xl);
+            max-width: 850px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-lg);
+        }
+        .modal-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-body {
+            padding: 24px;
+        }
+        .code-editor {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Monaco', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+            width: 100%;
+            border: none;
+            resize: vertical;
+        }
+        .console-output {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 16px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #10b981;
+            margin-top: 12px;
+        }
+        .quiz-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 16px;
+            margin: 8px 0;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quiz-option:hover {
+            border-color: var(--orange);
+        }
+        .quiz-option.selected {
+            border-color: var(--orange);
+            background: var(--orange-light);
+        }
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            background: white;
+            border-left: 4px solid var(--orange);
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+        .footer {
+            background: var(--gray-50);
+            border-top: 1px solid var(--gray-200);
+            padding: 48px 0 32px;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            .nav { display: none; }
+            .mobile-menu-toggle { display: block; background: none; border: none; font-size: 1.5rem; }
+            .hero h1 { font-size: 2rem; }
+        }
+        .mobile-menu-toggle { display: none; }
+        .notes-panel {
+            position: fixed;
+            right: 0;
+            top: 70px;
+            bottom: 0;
+            width: 340px;
+            background: white;
+            border-left: 1px solid var(--gray-200);
+            transform: translateX(100%);
+            transition: transform 0.25s;
+            z-index: 1001;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        .notes-panel.open { transform: translateX(0); }
+        .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9998; }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-inner">
+        <div class="logo"><i class="fa-solid fa-code"></i> Si<span>Coding</span></div>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle"><i class="fa-solid fa-bars"></i></button>
+        <nav class="nav" id="mainNav">
+            <a href="#hero" class="active">Beranda</a>
+            <a href="#fitur">Fitur</a>
+            <a href="#modul">Modul</a>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#leaderboard">Leaderboard</a>
+        </nav>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn btn-ghost" id="notesToggle"><i class="fa-regular fa-note-sticky"></i></button>
+            <button class="btn btn-outline btn-sm" id="loginBtn">Masuk</button>
+            <button class="btn btn-primary btn-sm" id="registerBtn">Daftar Gratis</button>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- Hero section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-badge">🔥 Platform Pembelajaran Bahasa C</div>
+            <h1>Kuasai Bahasa C Programming<br>dari Nol</h1>
+            <p>Belajar pemrograman C secara bertahap dengan materi terstruktur, latihan soal interaktif, dan tracking progress otomatis.</p>
+            <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+                <a href="#modul" class="btn btn-primary" style="padding: 12px 28px;">🎯 Mulai Belajar Gratis</a>
+                <a href="#fitur" class="btn btn-outline" style="padding: 12px 28px;">📖 Lihat Modul</a>
+            </div>
+            <div class="stats">
+                <div class="stat-item"><div class="stat-number" data-count="6">0</div><div class="stat-label">Modul Lengkap</div></div>
+                <div class="stat-item"><div class="stat-number" data-count="30">0</div><div class="stat-label">Latihan Soal</div></div>
+                <div class="stat-item"><div class="stat-number" data-count="100">0</div><div class="stat-label">Gratis Selamanya</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fitur Mengapa Si Coding -->
+    <section class="section" id="fitur">
+        <div class="container">
+            <h2 class="section-title">Mengapa Si Coding?</h2>
+            <p class="section-sub">Platform pembelajaran yang dirancang khusus untuk pemula yang ingin menguasai bahasa C.</p>
+            <div class="features-grid">
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-layer-group"></i></div><h3>Materi Terstruktur</h3><p>Modul pembelajaran disusun dari dasar hingga mahir secara sistematis.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-laptop-code"></i></div><h3>Contoh Kode Interaktif</h3><p>Setiap materi dilengkapi contoh kode yang bisa langsung dipelajari di sandbox.</p></div>
+                <div class="feature-card"><div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div><h3>Sistem Progress</h3><p>Lacak kemajuan belajar dan selesaikan quiz untuk membuka modul baru.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daftar Modul -->
+    <section class="section" id="modul">
+        <div class="container">
+            <h2 class="section-title">📚 Daftar Modul Pembelajaran</h2>
+            <p class="section-sub">Selesaikan modul secara bertahap. Anda harus menyelesaikan quiz di akhir setiap modul untuk membuka modul berikutnya.</p>
+            <div class="modules-grid" id="modulesGrid"></div>
+        </div>
+    </section>
+
+    <!-- Dashboard -->
+    <section class="section" id="dashboard">
+        <div class="container">
+            <h2 class="section-title">📊 Progress Keseluruhan</h2>
+            <div class="dashboard-grid" id="dashboardGrid"></div>
+            <div style="display: flex; gap: 12px; justify-content: center; margin-top: 20px;">
+                <button class="btn btn-outline btn-sm" id="exportBtn"><i class="fa-solid fa-download"></i> Export JSON</button>
+                <button class="btn btn-outline btn-sm" id="resetBtn"><i class="fa-solid fa-rotate-left"></i> Reset Progress</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leaderboard -->
+    <section class="section" id="leaderboard">
+        <div class="container">
+            <h2 class="section-title">🏆 Papan Peringkat</h2>
+            <p class="section-sub">10 pembelajar teraktif bulan ini</p>
+            <div style="overflow-x: auto;">
+                <table class="leaderboard-table">
+                    <thead><tr><th>Peringkat</th><th>Nama</th><th>Poin</th><th>Modul</th><th>Streak</th></tr></thead>
+                    <tbody id="leaderboardBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 32px;">
+        <div><h4>🚀 Si Coding</h4><p style="color: var(--gray-600);">Belajar C Programming interaktif & gratis.</p></div>
+        <div><h4>Navigasi</h4><ul style="list-style: none;"><li><a href="#hero" style="color: var(--gray-600);">Beranda</a></li><li><a href="#modul" style="color: var(--gray-600);">Modul</a></li></ul></div>
+        <div><h4>Kontak</h4><p style="color: var(--gray-600);"><i class="fa-regular fa-envelope"></i> halo@sicoding.id</p></div>
+    </div>
+    <div class="container" style="text-align: center; margin-top: 40px; color: var(--gray-600);">&copy; 2026 Si Coding. Belajar C jadi mudah.</div>
+</footer>
+
+<!-- Modals -->
+<div class="modal-overlay" id="sandboxOverlay"><div class="modal-content"><div class="modal-header"><h3 id="sandboxTitle">🧪 Code Sandbox C</h3><button class="btn btn-ghost btn-sm" id="closeSandbox">&times;</button></div><div class="modal-body"><textarea class="code-editor" id="codeEditor" rows="8">#include <stdio.h>\n\nint main() {\n    printf("Halo, C Programming!\\n");\n    return 0;\n}</textarea><div style="margin: 12px 0;"><button class="btn btn-primary btn-sm" id="runCodeBtn"><i class="fa-solid fa-play"></i> Jalankan</button><button class="btn btn-outline btn-sm" id="resetCodeBtn">Reset</button></div><div class="console-output" id="consoleOutput">// Output akan muncul di sini...</div><div class="hint-box" style="margin-top: 12px; cursor: pointer; background: var(--orange-light); padding: 8px 12px; border-radius: 12px;" id="hintBox"><strong>💡 Tips</strong> <span id="hintContent"></span></div></div></div></div>
+<div class="modal-overlay" id="quizOverlay"><div class="modal-content" id="quizModal"></div></div>
+<div class="modal-overlay" id="certificateOverlay"><div class="modal-content" id="certificateContent"></div></div>
+<div class="notes-panel" id="notesPanel"><h3>📝 Catatan Saya</h3><p>Modul: <strong id="notesModuleLabel">-</strong></p><textarea id="notesTextarea" rows="5" placeholder="Tulis catatan belajar C..."></textarea><button class="btn btn-primary btn-sm" id="saveNotesBtn" style="width:100%; margin-top: 12px;">💾 Simpan</button><hr style="margin: 16px 0;"><h4>⭐ Bookmark Modul</h4><div id="bookmarkList"></div><button class="btn btn-outline btn-sm" id="closeNotesPanel" style="margin-top:16px;">Tutup Panel</button></div>
+<div class="toast-container" id="toastContainer"></div>
+<div class="confetti" id="confettiContainer"></div>
+
+<script>
+    // Data modul Bahasa C
+    const modules = [
+        { id:1, title:"Dasar & Variabel", desc:"Memahami syntax dasar, tipe data, deklarasi variabel", icon:"fa-solid fa-cube", duration:"25 menit", defaultCode:"#include <stdio.h>\nint main() {\n    int umur = 20;\n    printf(\"Umur: %d\\n\", umur);\n    return 0;\n}", hint:"Gunakan %d untuk integer, %f untuk float.", quiz:[{q:"Apa fungsi `#include <stdio.h>`?", opts:["Menjalankan program","Menyertakan library input-output","Mendeklarasikan variabel"],answer:1},{q:"Tipe data untuk bilangan bulat?",opts:["float","char","int"],answer:2},{q:"Simbol komentar satu baris di C?",opts:["//","/* */","#"],answer:0}] },
+        { id:2, title:"Percabangan (if-else)", desc:"Logika kondisi if, else if, else", icon:"fa-solid fa-code-branch", duration:"30 menit", defaultCode:"#include <stdio.h>\nint main() {\n    int nilai = 85;\n    if(nilai >= 80) printf(\"Lulus\\n\");\n    else printf(\"Remidi\\n\");\n    return 0;\n}", hint:"Gunakan if untuk percabangan.", quiz:[{q:"Output jika nilai = 70? (if nilai>=80)",opts:["Lulus","Remidi","Error"],answer:1},{q:"Operator logika AND di C?",opts:["&","&&","and"],answer:1},{q:"else if digunakan untuk?",opts:["Perulangan","Percabangan bertingkat","Deklarasi"],answer:1}] },
+        { id:3, title:"Perulangan (Loops)", desc:"for, while, do-while", icon:"fa-solid fa-repeat", duration:"35 menit", defaultCode:"#include <stdio.h>\nint main() {\n    for(int i=1; i<=3; i++) {\n        printf(\"Iterasi %d\\n\", i);\n    }\n    return 0;\n}", hint:"Hati-hati infinite loop!", quiz:[{q:"Perulangan for (i=0;i<3;i++) berapa kali?",opts:["2","3","4"],answer:1},{q:"Keyword untuk keluar dari loop?",opts:["break","exit","continue"],answer:0},{q:"Loop yang menjamin minimal 1x eksekusi?",opts:["for","while","do-while"],answer:2}] },
+        { id:4, title:"Fungsi", desc:"Membuat fungsi, parameter, return", icon:"fa-solid fa-function", duration:"30 menit", defaultCode:"#include <stdio.h>\nint tambah(int a, int b) {\n    return a + b;\n}\nint main() {\n    int hasil = tambah(5,3);\n    printf(\"Hasil: %d\\n\", hasil);\n    return 0;\n}", hint:"Fungsi dapat mengembalikan nilai dengan return.", quiz:[{q:"Keyword mengembalikan nilai?",opts:["return","void","break"],answer:0},{q:"Tipe data fungsi yang tidak mengembalikan nilai?",opts:["int","float","void"],answer:2},{q:"Parameter fungsi bersifat?",opts:["Lokal","Global","Statis"],answer:0}] },
+        { id:5, title:"Array", desc:"Array satu dimensi dan pengolahannya", icon:"fa-solid fa-table-cells", duration:"30 menit", defaultCode:"#include <stdio.h>\nint main() {\n    int angka[3] = {10,20,30};\n    printf(\"Elemen pertama: %d\\n\", angka[0]);\n    return 0;\n}", hint:"Indeks array dimulai dari 0.", quiz:[{q:"Indeks pertama array?",opts:["1","0","-1"],answer:1},{q:"Deklarasi array 5 integer benar?",opts:["int arr[5];","array int[5];","int arr(5);"],answer:0},{q:"Mengakses elemen ke-3?",opts:["arr[2]","arr[3]","arr(3)"],answer:0}] },
+        { id:6, title:"Pointer & String", desc:"Konsep pointer dan manipulasi string", icon:"fa-solid fa-memory", duration:"40 menit", defaultCode:"#include <stdio.h>\nint main() {\n    char nama[] = \"Si Coding\";\n    printf(\"Halo %s\\n\", nama);\n    return 0;\n}", hint:"Pointer menyimpan alamat memori.", quiz:[{q:"Operator alamat di C?",opts:["*","&","#"],answer:1},{q:"String diakhiri dengan?",opts:["\\n","\\0","\\t"],answer:1},{q:"Deklarasi pointer ke integer?",opts:["int *ptr;","ptr int;","int& ptr;"],answer:0}] }
+    ];
+
+    let state = {
+        moduleProgress: {},
+        streakDates: [],
+        totalTimeSpent: 0,
+        currentQuizModule: null,
+        quizAnswers: [],
+        quizTimer: null,
+        quizIndex: 0
+    };
+
+    function loadState() {
+        let saved = localStorage.getItem("cState");
+        if(saved) Object.assign(state, JSON.parse(saved));
+        modules.forEach(m => {
+            if(!state.moduleProgress[m.id]) state.moduleProgress[m.id] = { completed: false, quizScore: 0, code: m.defaultCode, notes: "", bookmarked: false };
+        });
+    }
+    function saveState() { localStorage.setItem("cState", JSON.stringify(state)); }
+
+    function showToast(msg, type="info") {
+        let cont = document.getElementById("toastContainer");
+        let t = document.createElement("div");
+        t.className = "toast";
+        t.innerHTML = `<i class="fa-regular fa-bell"></i> ${msg}`;
+        cont.appendChild(t);
+        setTimeout(() => t.remove(), 2500);
+    }
+
+    function triggerConfetti() { for(let i=0;i<60;i++){ let c=document.createElement("div"); c.style.position="absolute"; c.style.width=Math.random()*8+5+"px"; c.style.height=c.style.width; c.style.backgroundColor=["#f97316","#ea580c","#fb923c"][Math.floor(Math.random()*3)]; c.style.left=Math.random()*100+"%"; c.style.top="-20px"; c.style.animation="fall 2s linear forwards"; document.getElementById("confettiContainer").appendChild(c); setTimeout(()=>c.remove(),2000); } }
+    const style = document.createElement("style"); style.textContent = `@keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity:0; } }`; document.head.appendChild(style);
+
+    function renderModules() {
+        let grid = document.getElementById("modulesGrid");
+        grid.innerHTML = modules.map((m, idx) => {
+            let prog = state.moduleProgress[m.id];
+            let prevCompleted = idx===0 || state.moduleProgress[modules[idx-1].id]?.completed;
+            let locked = !prevCompleted && idx!==0;
+            return `<div class="module-card ${prog.completed ? 'completed' : ''} ${locked ? 'locked' : ''}" data-id="${m.id}">
+                        <div style="display:flex; justify-content:space-between;"><span class="module-card__number">MODUL ${m.id}</span><span class="bookmark-star ${prog.bookmarked ? 'bookmarked' : ''}" onclick="toggleBookmark(${m.id}, this)"><i class="fa-solid fa-star"></i></span></div>
+                        <h3 style="margin:8px 0"><i class="${m.icon}"></i> ${m.title}</h3>
+                        <p style="color:var(--gray-600);">${m.desc}</p>
+                        <div class="progress-bar"><div class="progress-fill" style="width:${prog.completed ? 100 : 0}%"></div></div>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+                            <button class="btn btn-primary btn-sm" onclick="openSandbox(${m.id})" ${locked ? 'disabled' : ''}><i class="fa-solid fa-code"></i> Sandbox</button>
+                            <button class="btn btn-outline btn-sm" onclick="openQuiz(${m.id})" ${locked ? 'disabled' : ''}><i class="fa-regular fa-circle-question"></i> Quiz</button>
+                        </div>
+                    </div>`;
+        }).join('');
+    }
+
+    window.openSandbox = function(id) {
+        let mod = modules.find(m=>m.id===id);
+        document.getElementById("sandboxTitle").innerHTML = `🧪 Sandbox: ${mod.title}`;
+        document.getElementById("codeEditor").value = state.moduleProgress[id].code || mod.defaultCode;
+        document.getElementById("hintContent").innerHTML = mod.hint;
+        document.getElementById("sandboxOverlay").dataset.moduleId = id;
+        document.getElementById("sandboxOverlay").classList.add("active");
+    };
+    document.getElementById("closeSandbox").onclick = () => document.getElementById("sandboxOverlay").classList.remove("active");
+    document.getElementById("runCodeBtn").onclick = () => {
+        let code = document.getElementById("codeEditor").value;
+        let outputDiv = document.getElementById("consoleOutput");
+        // Simulasi sederhana: menangkap printf
+        let outputs = [];
+        let lines = code.split("\n");
+        for(let line of lines) {
+            let match = line.match(/printf\(["'](.*?)["']/);
+            if(match) outputs.push(match[1].replace(/\\n/g,''));
+        }
+        outputDiv.innerHTML = outputs.length ? outputs.join("\n") : "(Simulasi: Kode C berhasil dianalisis. Gunakan kompiler lokal untuk eksekusi penuh.)";
+        let mid = parseInt(document.getElementById("sandboxOverlay").dataset.moduleId);
+        if(mid) { state.moduleProgress[mid].code = document.getElementById("codeEditor").value; saveState(); }
+    };
+    document.getElementById("resetCodeBtn").onclick = () => {
+        let mid = parseInt(document.getElementById("sandboxOverlay").dataset.moduleId);
+        let mod = modules.find(m=>m.id===mid);
+        if(mod) document.getElementById("codeEditor").value = mod.defaultCode;
+        showToast("Kode direset ke default");
+    };
+    document.getElementById("hintBox").onclick = () => { alert(document.getElementById("hintContent").innerText); };
+
+    // Quiz
+    window.openQuiz = function(id) {
+        state.currentQuizModule = id;
+        state.quizIndex = 0;
+        state.quizAnswers = [];
+        renderQuizQuestion();
+        document.getElementById("quizOverlay").classList.add("active");
+    };
+    function renderQuizQuestion() {
+        let mod = modules.find(m=>m.id===state.currentQuizModule);
+        let q = mod.quiz[state.quizIndex];
+        let modal = document.getElementById("quizModal");
+        modal.innerHTML = `<div class="modal-header"><h3>📝 Quiz: ${mod.title}</h3><button class="btn btn-ghost btn-sm" onclick="closeQuiz()">&times;</button></div>
+        <div class="modal-body">
+            <p><strong>Pertanyaan ${state.quizIndex+1}/${mod.quiz.length}</strong></p>
+            <p style="margin:16px 0">${q.q}</p>
+            <div id="quizOptions">${q.opts.map((opt,i)=>`<button class="quiz-option" onclick="selectAnswer(${i})">${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}</div>
+        </div>`;
+    }
+    window.selectAnswer = function(ans) {
+        let mod = modules.find(m=>m.id===state.currentQuizModule);
+        let correct = mod.quiz[state.quizIndex].answer;
+        state.quizAnswers.push(ans);
+        let isCorrect = (ans === correct);
+        if(state.quizIndex + 1 < mod.quiz.length) {
+            state.quizIndex++;
+            renderQuizQuestion();
+        } else {
+            let score = state.quizAnswers.reduce((acc,val,i)=> acc + (val===mod.quiz[i].answer?1:0),0);
+            let percent = Math.round((score/mod.quiz.length)*100);
+            let passed = percent >= 70;
+            if(state.moduleProgress[state.currentQuizModule]) {
+                state.moduleProgress[state.currentQuizModule].quizScore = percent;
+                if(passed) state.moduleProgress[state.currentQuizModule].completed = true;
+            }
+            let today = new Date().toISOString().split('T')[0];
+            if(!state.streakDates.includes(today)) state.streakDates.push(today);
+            saveState();
+            renderModules(); renderDashboard();
+            document.getElementById("quizModal").innerHTML = `<div class="modal-body"><h3>${passed ? "🎉 Selamat!" : "😔 Coba lagi"}</h3><p>Skor Anda: ${percent}%</p><button class="btn btn-primary" onclick="closeQuiz()">Tutup</button></div>`;
+            if(passed) triggerConfetti();
+            if(passed && modules.every(m=>state.moduleProgress[m.id]?.completed)) setTimeout(()=>{ document.getElementById("certificateContent").innerHTML = `<div style="padding:32px; text-align:center;"><i class="fa-solid fa-certificate" style="font-size:4rem; color:var(--orange)"></i><h2>Sertifikat Kelulusan</h2><p>Selamat! Anda telah menyelesaikan seluruh modul C Programming.</p><button class="btn btn-primary" onclick="document.getElementById('certificateOverlay').classList.remove('active')">Tutup</button></div>`; document.getElementById("certificateOverlay").classList.add("active"); }, 500);
+        }
+    };
+    window.closeQuiz = function() { document.getElementById("quizOverlay").classList.remove("active"); };
+
+    function renderDashboard() {
+        let completed = modules.filter(m=>state.moduleProgress[m.id]?.completed).length;
+        let total = modules.length;
+        let avg = Math.round(modules.reduce((a,m)=>a+(state.moduleProgress[m.id]?.quizScore||0),0)/total);
+        let streak = (()=>{ if(!state.streakDates.length) return 0; let s=1; let sorted = [...state.streakDates].sort().reverse(); for(let i=1;i<sorted.length;i++) if((new Date(sorted[i-1])-new Date(sorted[i]))/(86400000)===1) s++; else break; return s; })();
+        document.getElementById("dashboardGrid").innerHTML = `<div class="dashboard-card"><h3>📘 Progress</h3><div style="font-size:2rem; font-weight:800; color:var(--orange)">${completed}/${total}</div><p>Modul Selesai</p></div>
+        <div class="dashboard-card"><h3>⭐ Rata-rata Skor</h3><div style="font-size:2rem; font-weight:800">${avg}%</div></div>
+        <div class="dashboard-card"><h3>🔥 Streak</h3><div style="font-size:2rem; font-weight:800; color:var(--orange)">${streak}</div><p>hari berturut-turut</p></div>`;
+    }
+    function renderLeaderboard() {
+        let dummy = [{name:"Budi Santoso",points:2850,modules:6,streak:21},{name:"Siti Aminah",points:2720,modules:6,streak:18},{name:"Andi Wijaya",points:2590,modules:5,streak:15},{name:"Cynthia Dewi",points:2410,modules:5,streak:14},{name:"Rizki Maulana",points:2280,modules:4,streak:12}];
+        document.getElementById("leaderboardBody").innerHTML = dummy.map((u,i)=>`<tr><td>${i+1}</td><td><strong>${u.name}</strong></td><td>${u.points}</td><td>${u.modules}/6</td><td>🔥 ${u.streak}</td></tr>`).join('');
+    }
+    window.toggleBookmark = function(id, el) {
+        state.moduleProgress[id].bookmarked = !state.moduleProgress[id].bookmarked;
+        el.classList.toggle("bookmarked");
+        saveState();
+        updateBookmarkList();
+        showToast(state.moduleProgress[id].bookmarked ? "Modul ditandai" : "Bookmark dihapus");
+    };
+    function updateBookmarkList() {
+        let bookmarked = modules.filter(m=>state.moduleProgress[m.id]?.bookmarked);
+        document.getElementById("bookmarkList").innerHTML = bookmarked.length ? bookmarked.map(m=>`<div>⭐ Modul ${m.id}: ${m.title}</div>`).join('') : "Belum ada bookmark";
+    }
+    document.getElementById("notesToggle").onclick = () => document.getElementById("notesPanel").classList.toggle("open");
+    document.getElementById("closeNotesPanel").onclick = () => document.getElementById("notesPanel").classList.remove("open");
+    document.getElementById("saveNotesBtn").onclick = () => { if(window.activeNotes) state.moduleProgress[window.activeNotes].notes = document.getElementById("notesTextarea").value; saveState(); showToast("Catatan tersimpan"); };
+    document.getElementById("exportBtn").onclick = () => { let a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(state)])); a.download="sicoding-progress.json"; a.click(); };
+    document.getElementById("resetBtn").onclick = () => { if(confirm("Reset semua progress?")){ modules.forEach(m=>{ state.moduleProgress[m.id]={ completed:false, quizScore:0, code:m.defaultCode, notes:"", bookmarked:false }; }); state.streakDates=[]; saveState(); renderModules(); renderDashboard(); updateBookmarkList(); showToast("Progress direset"); } };
+    document.getElementById("loginBtn").onclick = () => showToast("Fitur login segera hadir");
+    document.getElementById("registerBtn").onclick = () => showToast("Pendaftaran gratis, selamat belajar!");
+
+    function animateStats() {
+        document.querySelectorAll("[data-count]").forEach(el=>{ let target=parseInt(el.dataset.count), cur=0, step=Math.ceil(target/30); let int=setInterval(()=>{ cur+=step; if(cur>=target){ el.innerText=target; clearInterval(int); } else el.innerText=cur; },30); });
+    }
+    function init() {
+        loadState();
+        renderModules(); renderDashboard(); renderLeaderboard(); updateBookmarkList();
+        animateStats();
+        setInterval(()=>{ state.totalTimeSpent+=30; saveState(); },30000);
+        window.activeNotes = 1;
+    }
+    init();
+</script>
+</body>
+</html>
